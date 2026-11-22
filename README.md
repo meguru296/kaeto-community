@@ -26,15 +26,15 @@
 ## 界面预览
 
 <p align="center">
-  <a href="https://kaeto.top/img/uploads/743cb80b9f6bc4e9130c5087bd4bb7f4.webp"><img src="https://kaeto.top/img/uploads/743cb80b9f6bc4e9130c5087bd4bb7f4.webp" width="100%" alt="糖糖星作品库，展示枫糖插画和六部演示作品"></a>
+  <a href="https://kaeto.top/img/uploads/7b239dd2faac226009e2cb9d2149e948.webp"><img src="https://kaeto.top/img/uploads/7b239dd2faac226009e2cb9d2149e948.webp" width="100%" alt="糖糖星作品库，包含作品搜索、筛选和群友的作品书架"></a>
 </p>
 
 <p align="center">
-  <a href="https://kaeto.top/img/uploads/0b2951f0fbc3213296b9c4f33c47780e.webp"><img src="https://kaeto.top/img/uploads/0b2951f0fbc3213296b9c4f33c47780e.webp" width="58%" alt="糖糖星列表收藏室，展示带主题封面、标签和点赞数的两份公开清单"></a>
-  <a href="https://kaeto.top/img/uploads/23bb0ff4c4d8d1c3d09019f648d31abf.webp"><img src="https://kaeto.top/img/uploads/23bb0ff4c4d8d1c3d09019f648d31abf.webp" width="38%" alt="糖糖星的松绿纸白资历卡，展示入坑年份、代表作品和个人偏好"></a>
+  <a href="https://kaeto.top/img/uploads/601523aeaaa8536024831bc7c4e78929.webp"><img src="https://kaeto.top/img/uploads/601523aeaaa8536024831bc7c4e78929.webp" width="48%" alt="糖糖星个人主页，展示游玩记录、故事印章和公开清单"></a>
+  <a href="https://kaeto.top/img/uploads/6ed8b50ccc814fefb61ed3c1921fef2b.webp"><img src="https://kaeto.top/img/uploads/6ed8b50ccc814fefb61ed3c1921fef2b.webp" width="48%" alt="糖糖星音乐分享，展示歌曲档案、关联作品和群友热门推荐"></a>
 </p>
 
-截图使用糖糖星正式版界面。画面中的账号、作品和游玩记录均为演示样本。
+点击截图查看大图。
 
 ## 快速开始
 
