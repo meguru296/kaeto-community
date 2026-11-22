@@ -1,23 +1,26 @@
-<p align="center">
-  <img src="public/img/site/icon-192.png" width="64" height="64" alt="Kaeto 标志">
-</p>
-<h1 align="center">Kaeto Community</h1>
-<p align="center">
-  <strong>给视觉小说同好自建的社区书架</strong><br>
-  A self-hosted visual novel catalog, play journal, and community shelf.
-</p>
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-286450" alt="MIT license"></a>
-  <a href="#快速开始"><img src="https://img.shields.io/badge/Node.js-22%2B-526660" alt="Node.js 22+"></a>
-</p>
-<p align="center">
-  <a href="#快速开始"><strong>本地试用</strong></a> ·
-  <a href="#界面预览">界面预览</a> ·
-  <a href="deploy/README.md">自建部署</a> ·
-  <a href="https://github.com/meguru296/kaeto-community/issues">反馈与建议</a>
-</p>
-
-[![Kaeto Community 的作品库，展示六部配有原创示例封面的虚构视觉小说](docs/images/catalogue.webp)](docs/images/catalogue.webp)
+<table>
+  <tr>
+    <td width="75%" valign="middle">
+      <img src="https://kaeto.top/img/community/avatar.webp" width="56" height="56" alt="糖糖星 2.0 的枫糖图标">
+      <h1>Kaeto Community</h1>
+      <p><strong>给视觉小说同好自建的社区书架</strong><br>
+      A self-hosted visual novel catalog, play journal, and community shelf.</p>
+      <p>
+        <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-b92453" alt="MIT license"></a>
+        <a href="#快速开始"><img src="https://img.shields.io/badge/Node.js-22%2B-645568" alt="Node.js 22+"></a>
+      </p>
+      <p>
+        <a href="#快速开始"><strong>本地试用</strong></a> ·
+        <a href="#界面预览">界面预览</a> ·
+        <a href="deploy/README.md">自建部署</a> ·
+        <a href="https://kaeto.top/">糖糖星 2.0 ↗</a>
+      </p>
+    </td>
+    <td width="25%" align="center" valign="middle">
+      <a href="https://kaeto.top/"><img src="https://kaeto.top/img/community/kaeto.webp" width="152" alt="糖糖星首页上穿粉色外套的枫糖"></a>
+    </td>
+  </tr>
+</table>
 
 ## 用 Kaeto 做什么
 
@@ -26,6 +29,8 @@
 - **做一张自己的资历卡**　把入坑年份、代表作品和喜欢的角色排进一张长图。草稿跟随账号，分享用的 PNG 由浏览器生成。
 
 ## 界面预览
+
+[![Kaeto Community 的作品库，展示六部配有原创示例封面的虚构视觉小说](docs/images/catalogue.webp)](docs/images/catalogue.webp)
 
 <p align="center">
   <a href="docs/images/lists.webp"><img src="docs/images/lists.webp" width="62%" alt="列表收藏室，展示带主题封面、标签和点赞数的公开清单"></a>
@@ -62,4 +67,4 @@ Windows PowerShell 请用 `Copy-Item config.example.json config.json` 复制配�
 
 ## 许可
 
-项目代码及自制占位素材采用 MIT 许可证。内置字体、第三方资料和品牌的使用规则见随附说明。[MIT 许可证](LICENSE) · [第三方声明](THIRD_PARTY_NOTICES.md)
+项目代码及自制占位素材采用 MIT 许可证。README 展示的糖糖星图标与枫糖插画由糖糖星官网提供，相关权利由权利人保留。[MIT 许可证](LICENSE) · [第三方声明](THIRD_PARTY_NOTICES.md)
