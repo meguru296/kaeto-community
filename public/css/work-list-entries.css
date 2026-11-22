@@ -1,0 +1,6 @@
+/* Entry widgets retain the existing site's appearance outside the list column. */
+.wl-profile-entry{padding:22px;border:1px solid var(--line,#e7d7e0);border-radius:8px;margin-bottom:24px}
+.wl-profile-entry h2{font-size:18px;margin:0 0 12px}.wl-profile-entry h2 small{font-size:13px;color:var(--muted)}
+.wl-profile-entry p{color:var(--muted);font-size:12px;line-height:1.8}.wl-profile-entry>a{display:flex;justify-content:space-between;gap:12px;padding:13px 0;font-size:13px;text-decoration:none;border-top:1px solid var(--line,#e7d7e0)}
+.wl-profile-entry>a span{overflow-wrap:anywhere;min-width:0}.wl-profile-entry>a small{font-size:11px;color:var(--muted);white-space:nowrap}.wl-profile-all{color:var(--accent,#a94d76)!important}
+.wl-work-entry{display:block;border:1px solid var(--line,#e7d7e0);border-radius:4px;padding:13px 18px;text-align:center;margin:18px 0;font-size:13px;color:var(--accent,#a94d76);text-decoration:none}

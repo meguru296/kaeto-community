@@ -1,0 +1,15 @@
+.guest-welcome{box-sizing:border-box;width:min(520px,calc(100% - 32px));max-height:calc(100dvh - 32px);overflow:auto;margin:auto;padding:36px;border:1px solid var(--border,#eadce5);border-radius:22px;background:var(--surface,#fffafb);color:var(--text,#47333f);box-shadow:0 24px 90px #24132040}
+.guest-welcome::backdrop{background:#21172580;backdrop-filter:blur(5px)}
+.guest-welcome-close{position:absolute;right:12px;top:10px;width:42px;height:42px;border:0;border-radius:50%;background:transparent;color:var(--text-dim,#806c79);font-size:28px;cursor:pointer}
+.guest-welcome-close:hover{background:var(--surface-2,#f5eaf0)}
+.guest-welcome-brand{display:flex;align-items:center;gap:12px;margin:0 28px 23px 0;font-size:12px;color:var(--text-dim,#806c79)}
+.guest-welcome-brand img{flex:none;width:56px;height:56px;object-fit:contain;border-radius:50%;background:#fff}
+.guest-welcome h2{font-size:29px;line-height:1.5;letter-spacing:.02em;margin:0 0 14px;color:var(--text,#47333f)}
+.guest-welcome p{font-size:14px;line-height:1.9;color:var(--text-dim,#806c79);margin:0}
+.guest-welcome-features{display:flex;flex-wrap:wrap;gap:8px;margin:21px 0 28px}
+.guest-welcome-features span{padding:6px 12px;border-radius:20px;background:var(--surface-2,#f5eaf0);color:var(--brand,#a63e6c);font-size:12px}
+.guest-welcome-actions{display:flex;gap:10px}.guest-welcome-actions .btn{min-height:46px;justify-content:center}.guest-welcome-actions .btn-primary{flex:1}
+.guest-welcome .guest-welcome-note{font-size:12px;margin-top:18px}.guest-welcome-note a{display:inline-block;margin-left:5px;color:var(--brand,#a63e6c);text-underline-offset:4px}
+.guest-welcome :focus-visible{outline:2px solid var(--brand,#a63e6c);outline-offset:3px}
+@media(max-width:480px){.guest-welcome{padding:30px 24px 24px}.guest-welcome h2{font-size:26px}.guest-welcome-brand{font-size:11px}.guest-welcome-brand img{width:44px;height:44px}.guest-welcome-actions{flex-wrap:wrap}.guest-welcome-actions .btn{flex:1 1 auto}.guest-welcome .guest-welcome-note a{margin-left:0}}
+@media(prefers-reduced-motion:no-preference){.guest-welcome[open]{animation:guest-welcome-enter .22s ease-out}@keyframes guest-welcome-enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}}

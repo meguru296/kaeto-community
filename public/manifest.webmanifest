@@ -1,0 +1,23 @@
+{
+  "id": "/",
+  "name": "视觉小说社区",
+  "short_name": "视觉小说社区",
+  "description": "视觉小说社区 Galgame 交流会 · 把故事留在心里，把足迹留在这里。",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fffafb",
+  "theme_color": "#fffafb",
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "/img/site/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/img/site/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/img/site/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "找一部作品", "url": "/games?local=1" },
+    { "name": "听听音乐", "url": "/music" },
+    { "name": "我的记录", "url": "/me" }
+  ]
+}

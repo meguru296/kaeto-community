@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import sharp from 'sharp';
+import {BangumiCharacters,bangumiCharacterImage} from '../src/lib/bangumi-characters.js';
+let checks=0;const check=(label,fn)=>{fn();checks++;console.log('✓ '+label);},requests=[],pictures=[];
+const png=await sharp({create:{width:64,height:64,channels:3,background:'#ff80b0'}}).png().toBuffer();
+const char=id=>({id,name:'無生日角色'+id,nsfw:id===11,infobox:[{key:'简体中文名',value:'没有生日的角色'+id}],images:{medium:'https://lain.bgm.tv/r/400/pic/crt/l/e9/cf/'+id+'_crt_A.jpg?r=123'}});
+const client=new BangumiCharacters({token:'private-test-token',interval:0,fetcher:async(url,options)=>{requests.push({url,options});if(url.endsWith('/subjects'))return Response.json([{name:'动画名',type:2},{name:'原作游戏',type:4}]);if(/characters\/\d+$/.test(url))return Response.json(char(Number(url.split('/').at(-1))));const offset=new URL(url).searchParams.get('offset');return Response.json({total:20,data:[char(offset==='0'?10:12),char(11),char(11)]});},imageFetcher:async(url,options)=>{pictures.push({url,options});return new Response(png,{headers:{'Content-Type':'image/png'}});}});
+const a=await client.search('角色'),b=await client.search('角色');check('官方角色搜索不要求生日，中文名称、独立编号与翻页正确',()=>{assert.equal(a.rows[0].name,'没有生日的角色10');assert.equal(a.rows[0].id,'bgm-character-10');assert.equal(a.rows.length,2);assert.equal(a.hasNext,true);assert.deepEqual(a,b);assert.equal(requests.length,1);assert.equal(JSON.parse(requests[0].options.body).keyword,'角色');assert.ok(requests[0].url.startsWith('https://api.bgm.tv/v0/search/characters?'));});
+await client.search('角色',2);check('分页查询传递 offset 且相同查询复用缓存',()=>assert.match(requests.at(-1).url,/offset=12/));
+check('客户端只得到同源图片地址与来源，不包含令牌或上游原图',()=>{const json=JSON.stringify(a);assert.ok(!json.includes('private-test-token'));assert.ok(!json.includes('lain.bgm.tv'));assert.equal(a.rows[0].image,'/api/me/story-card/character-image/10');assert.equal(a.rows[0].source,'https://bgm.tv/character/10');});
+const detail=await client.character(10,{subjects:true});check('按角色编号读取关联作品，优先游戏，不靠同名猜测',()=>assert.equal(detail.work,'原作游戏 / 动画名'));
+const clear=await client.image(10),masked=await client.image(11),raw=await client.image(11,true);check('图片校验与保护偏好隔离，图片请求不携带 API 令牌',()=>{assert.ok(clear.length);assert.ok(!masked.equals(raw));assert.ok(pictures.every(r=>!r.options.headers?.Authorization));assert.ok(pictures.every(r=>!r.url.includes('?')));});
+const count=pictures.length;await client.image(10);check('图片请求共享且缓存有界',()=>assert.equal(pictures.length,count));
+check('拒绝非官方图床、凭据、特殊端口、路径穿越与非图片',()=>{for(const url of ['https://evil.test/pic/crt/l/e9/cf/a.jpg','http://lain.bgm.tv/pic/crt/l/e9/cf/a.jpg','https://token@lain.bgm.tv/pic/crt/l/e9/cf/a.jpg','https://lain.bgm.tv:444/pic/crt/l/e9/cf/a.jpg','https://lain.bgm.tv/../private','https://lain.bgm.tv/pic/crt/l/e9/cf/a.svg'])assert.equal(bangumiCharacterImage(url),'');});
+await assert.rejects(client.search('',1),e=>e.status===400);await assert.rejects(client.search('test',51),e=>e.status===400);checks++;console.log('✓ 搜索与页码边界校验');
+let calls=0;const retry=new BangumiCharacters({interval:0,fetcher:async()=>{calls++;return calls===1?Response.json({error:'changed'}):Response.json({total:1,data:[char(88)]});}});await assert.rejects(retry.search('重试'));assert.equal((await retry.search('重试')).rows.length,1);checks++;console.log('✓ 格式异常不写空缓存，下次可恢复搜索');
+let rateCalls=0;const limited=new BangumiCharacters({interval:0,fetcher:async()=>{rateCalls++;return new Response('',{status:429});}});await assert.rejects(limited.search('限流'),e=>e.status===429);await assert.rejects(limited.search('再次限流'),e=>e.status===429);assert.equal(rateCalls,1);checks++;console.log('✓ 上游限流进入短暂冷却，不持续冲击接口');
+console.log(checks+' 组 Bangumi 角色接口检查通过');

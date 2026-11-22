@@ -1,0 +1,30 @@
+{
+  "site": {
+    "name": "视觉小说社区",
+    "host": "127.0.0.1",
+    "port": 8787,
+    "publicUrl": ""
+  },
+  "security": {
+    "allowRegistration": false,
+    "firstUserIsAdmin": false,
+    "ensureInviteOnBoot": false,
+    "sessionDays": 7,
+    "secureCookies": false
+  },
+  "ymgal": {},
+  "integrations": {
+    "catalogue": {
+      "enabled": false
+    },
+    "steam": {
+      "enabled": false
+    },
+    "bangumiImport": {
+      "enabled": false
+    }
+  },
+  "pilgrimage": {
+    "enabled": false
+  }
+}

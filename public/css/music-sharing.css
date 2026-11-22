@@ -1,0 +1,360 @@
+/* Music sharing: one layout for covers, song details, actions and work links. */
+.mu-page{max-width:1080px;margin:18px auto 60px;color:var(--text);min-width:0}
+.mu-page *{box-sizing:border-box}
+.mu-page [hidden]{display:none!important}
+.mu-page a,.mu-page button{transition:background .15s,color .15s,border-color .15s}
+.mu-page button{font:inherit;cursor:pointer}
+.mu-page button:disabled{opacity:.55;cursor:wait}
+.mu-page :is(a,button,input,textarea,select,summary):focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+.mu-eyebrow{margin:0 0 8px;font-size:9px;letter-spacing:1.8px;color:var(--text-dim)}
+.mu-muted{font-size:12px;color:var(--text-dim);line-height:1.8}
+.mu-back{display:inline-flex;align-items:center;min-height:36px;margin:0 0 18px;font-size:12px;color:var(--text-dim)}
+
+/* Header and discovery controls. */
+.mu-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 24px;align-items:center;padding:24px 28px 0;border:1px solid var(--border);border-radius:14px;background:var(--surface);margin-bottom:26px}
+.mu-hero-copy{min-width:0}
+.mu-hero h1{margin:0 0 8px;font-size:26px;font-weight:550;line-height:1.5;letter-spacing:.4px}
+.mu-hero-note{margin:0;font-size:12px;line-height:1.9;color:var(--text-dim)}
+.mu-share-action{font-size:12px;white-space:nowrap}
+.mu-summary{grid-column:1/-1;display:flex;align-items:center;flex-wrap:wrap;gap:20px;margin-top:20px;padding:13px 0;border-top:1px solid var(--border);font-size:11px;color:var(--text-dim)}
+.mu-summary b{font-size:14px;font-weight:550;color:var(--text);margin-right:3px}
+.mu-summary-note{margin-left:auto;font-size:11px}
+.mu-content-layout{display:grid;grid-template-columns:minmax(0,1fr) 228px;gap:26px;align-items:start}
+.mu-main{min-width:0}
+.mu-tabs{display:flex;gap:28px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.mu-tabs a{font-size:14px;color:var(--text-dim);padding:0 0 13px;border-bottom:2px solid transparent}
+.mu-tabs a[aria-current]{color:var(--text);font-weight:600;border-color:var(--brand)}
+.mu-filter{display:grid;grid-template-columns:minmax(0,1fr) 100px auto;gap:8px;margin-bottom:18px}
+.mu-filter-library{grid-template-columns:minmax(0,1fr) 90px 108px auto}
+.mu-filter .input{width:100%;min-width:0;font-size:12px;min-height:42px}
+.mu-filter .btn{min-height:42px;font-size:12px;padding:8px 15px;white-space:nowrap}
+.mu-feed,.mu-library-grid{display:grid;gap:20px;min-width:0}
+
+/* Shared song row: cover / information / listening action. */
+.mu-song{display:grid;grid-template-columns:88px minmax(0,1fr) auto;align-items:center;gap:18px;padding:18px;min-width:0}
+.mu-art-link{display:block;min-width:0}
+.mu-art{display:block;width:88px;height:88px;overflow:hidden;border:1px solid var(--border);border-radius:8px;background:var(--bg);flex:none}
+.mu-art img{display:block;width:100%;height:100%;object-fit:cover}
+.mu-disc{display:grid;place-items:center;width:88%;height:88%;margin:6%;border-radius:50%;background:repeating-radial-gradient(circle,#323235 0,#323235 2px,#47474a 3px,#323235 4px)}
+.mu-disc i{display:grid;place-items:center;width:37%;height:37%;border-radius:50%;background:#dfbab6;color:#584341;font-style:normal;font-size:16px}
+.mu-fallback-note{display:grid;place-items:center;height:100%;font-size:30px;color:var(--brand)}
+.mu-song-copy{min-width:0}
+.mu-song h3{font-size:17px;line-height:1.55;font-weight:550;margin:0 0 6px;overflow-wrap:anywhere}
+.mu-song h3 a:hover,.mu-song h1 a:hover{color:var(--brand)}
+.mu-song .mu-artist{font-size:12px;color:var(--text);line-height:1.7;margin:0;overflow-wrap:anywhere}
+.mu-song-meta{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin-top:5px;min-width:0;color:var(--text-dim)}
+.mu-song .mu-album{margin:0;font-size:11px;line-height:1.7;overflow-wrap:anywhere;min-width:0}
+.mu-duration{font-size:11px;line-height:1.7;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--text-dim)}
+.mu-song-actions{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:8px;min-width:120px}
+.mu-listen{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:10px 14px;border:1px solid var(--brand);border-radius:7px;background:var(--brand);font-size:12px;font-weight:550;line-height:1.6;color:#fff;text-decoration:none;white-space:nowrap}
+.mu-listen:hover{filter:brightness(.94)}
+.mu-recommend-action{display:inline-flex;align-items:center;justify-content:center;min-height:36px;font-size:12px;line-height:1.6;color:var(--text-dim);padding:6px 10px;border:1px solid var(--border);border-radius:7px;white-space:nowrap}
+.mu-recommend-action:hover{color:var(--brand);border-color:var(--brand)}
+
+/* Work navigation belongs to the song row, with no extra nested button box. */
+.mu-work{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:52px;padding:10px 18px;border-top:1px solid var(--border);font-size:12px;color:var(--text);text-decoration:none;background:var(--surface)}
+.mu-work-copy{display:flex;align-items:center;flex-wrap:wrap;gap:8px;min-width:0;flex:1}
+.mu-work-copy small{font-size:10px;color:var(--text-dim);white-space:nowrap}
+.mu-work-copy strong{min-width:0;overflow-wrap:anywhere;font-size:12px;line-height:1.7;font-weight:500}
+.mu-role-tag{display:inline-flex;align-items:center;justify-content:center;padding:1px 6px;border:1px solid var(--border);border-radius:4px;font-size:10px;line-height:1.6;color:var(--brand);white-space:nowrap}
+.mu-work>b{display:inline-flex;align-items:center;gap:8px;flex:none;font-size:12px;font-weight:500;line-height:1.7;color:var(--brand);white-space:nowrap}
+.mu-work:hover{background:var(--surface-2)}
+.mu-work:hover>b{text-decoration:underline;text-underline-offset:4px}
+
+/* Recommendations keep the person, the song and the writing in distinct rows. */
+.mu-post{min-width:0;padding:20px 22px 10px;border:1px solid var(--border);border-radius:13px;background:var(--surface)}
+.mu-post-header{display:flex;align-items:center;gap:10px;margin-bottom:17px;min-width:0}
+.mu-post-header>div{display:grid;gap:4px;min-width:0;font-size:12px}
+.mu-post-header>div>span{font-size:10px;color:var(--text-dim)}
+.mu-post-header .mu-time{margin-left:auto;font-size:10px;color:var(--text-dim);white-space:nowrap}
+.mu-post-track{overflow:hidden;border:1px solid var(--border);border-radius:9px;background:var(--surface-2)}
+.mu-post-body{margin-top:18px}
+.mu-recommend-text,.mu-long-text{font-size:13px;line-height:2;overflow-wrap:anywhere}
+.mu-recommend-text{white-space:normal}
+.mu-recommend-text .review-sticker,.mu-text-preview .review-sticker{vertical-align:middle;max-width:72px;max-height:72px;object-fit:contain}
+.mu-long-text>summary{cursor:pointer;list-style:none}
+.mu-long-text>summary::-webkit-details-marker{display:none}
+.mu-long-text>summary>span{display:block;font-size:11px;line-height:1.8;color:var(--brand);margin-top:7px}
+.mu-long-text[open]>summary{display:none}
+.mu-spoiler{font-size:12px;line-height:1.9}
+.mu-spoiler>summary{cursor:pointer;background:var(--surface-2);padding:11px 12px;border:1px solid var(--border);border-radius:6px;color:var(--text-dim)}
+.mu-spoiler[open]>summary{margin-bottom:12px}
+.mu-post-footer{display:flex;gap:5px;align-items:center;flex-wrap:wrap;position:relative;margin-top:16px;padding-top:7px;border-top:1px solid var(--border)}
+.mu-post-footer form{margin:0}
+.mu-post-footer a,.mu-post-footer button,.mu-more-actions>summary{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 10px;border:0;border-radius:6px;background:none;font-size:12px;line-height:1.6;color:var(--text-dim)}
+.mu-post-footer [aria-pressed=true]{color:var(--brand)}
+.mu-post-footer a:hover,.mu-post-footer button:hover,.mu-more-actions>summary:hover{background:var(--surface-2);color:var(--brand)}
+.mu-more-actions{position:relative;margin-left:auto;font-size:12px}
+.mu-more-actions>summary{list-style:none;cursor:pointer;white-space:nowrap}
+.mu-more-actions>summary::-webkit-details-marker{display:none}
+.mu-more-actions[open]>div,.mu-more-actions[open]>form{position:absolute;right:0;top:100%;z-index:4;min-width:132px;padding:7px;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 22px #0002}
+.mu-more-actions[open]>div a,.mu-more-actions[open]>div button,.mu-more-actions[open]>form button{width:100%;min-height:42px;padding:9px;font-size:12px;white-space:nowrap}
+.mu-inline-feedback{margin:8px 0;font-size:12px;color:var(--brand);line-height:1.8}
+.mu-inline-feedback:empty{display:none}
+.mu-post-reading .mu-post-track{background:var(--surface)}
+.mu-post-reading .mu-work{border-top:0}
+
+/* Music library and secondary discovery. */
+.mu-library-card{border:1px solid var(--border);border-radius:12px;overflow:hidden;min-width:0;background:var(--surface)}
+.mu-library-header{display:flex;align-items:center;gap:12px;padding:13px 18px 0;font-size:11px;color:var(--text-dim)}
+.mu-library-header>a{margin-left:auto;font-size:11px;color:var(--text-dim)}
+.mu-library-header>a:hover{color:var(--brand)}
+.mu-library-tags{display:flex;gap:5px;flex-wrap:wrap}
+.mu-library-works{display:grid}
+.mu-library-empty{margin:0;padding:12px 18px;border-top:1px solid var(--border)}
+.mu-aside{display:grid;gap:16px;align-content:start;min-width:0}
+.mu-aside section{padding:18px;border:1px solid var(--border);border-radius:12px;background:var(--surface)}
+.mu-aside h2{font-size:14px;line-height:1.6;font-weight:550;margin:0 0 14px}
+.mu-highlight{display:flex;align-items:center;gap:11px;margin-top:12px;min-width:0}
+.mu-highlight .mu-art{width:44px;height:44px;border-radius:6px}
+.mu-highlight>span:last-child{display:grid;gap:4px;min-width:0}
+.mu-highlight strong{font-size:12px;line-height:1.6;font-weight:500;overflow-wrap:anywhere}
+.mu-highlight small{font-size:10px;line-height:1.7;color:var(--text-dim);overflow-wrap:anywhere}
+.mu-empty{padding:42px 22px;border:1px dashed var(--border);border-radius:12px;text-align:center;background:var(--surface)}
+.mu-empty-record{display:grid;place-items:center;width:60px;height:60px;border:1px solid var(--border);border-radius:50%;margin:0 auto 18px;font-size:24px;color:var(--brand);background:var(--surface-2)}
+.mu-empty h2{font-size:18px;font-weight:500;margin:0 0 12px}
+.mu-empty p{font-size:12px;line-height:2;color:var(--text-dim);margin:0 0 20px}
+.mu-empty .btn{font-size:12px}
+.mu-pagination{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:22px 3px;font-size:12px;color:var(--text-dim)}
+.mu-pagination a{padding:8px 0;min-height:40px}
+
+/* Song and recommendation detail pages. */
+.mu-song-page{max-width:880px}
+.mu-single-post{max-width:800px}
+.mu-focus{border:1px solid var(--border);border-radius:13px;overflow:hidden;background:var(--surface)}
+.mu-song-focus{grid-template-columns:144px minmax(0,1fr) auto;gap:24px;padding:26px}
+.mu-art-large{width:144px;height:144px;border-radius:10px}
+.mu-song-label{margin:0 0 7px;font-size:10px;color:var(--text-dim);letter-spacing:1px}
+.mu-song-focus h1{font-size:25px;line-height:1.5;font-weight:550;margin:0 0 8px;overflow-wrap:anywhere}
+.mu-song-focus .mu-artist{font-size:13px}
+.mu-song-focus .mu-album{font-size:12px}
+.mu-song-focus .mu-song-actions{min-width:134px}
+.mu-song-works{border-top:1px solid var(--border)}
+.mu-song-works .mu-work:first-child{border-top:0}
+.mu-song-works .mu-work{padding-inline:26px}
+.mu-section-heading{margin:28px 0 18px}
+.mu-section-heading h2{font-size:18px;line-height:1.6;font-weight:550;margin:0 0 6px}
+.mu-section-heading h2>span{font-size:12px;font-weight:400;color:var(--text-dim);margin-left:7px}
+.mu-section-heading p{margin:0;font-size:12px;line-height:1.8;color:var(--text-dim)}
+
+/* Share form: compact summaries, one clear active step. */
+.mu-compose-page{max-width:780px}
+.mu-compose-heading{margin-bottom:22px}
+.mu-compose-heading h1{font-size:26px;font-weight:550;line-height:1.6;margin:0 0 9px}
+.mu-compose-heading p:last-child{font-size:12px;color:var(--text-dim);line-height:1.9;margin:0}
+.mu-composer{border:1px solid var(--border);border-radius:12px;background:var(--surface);overflow:hidden}
+.mu-compose-step{padding:22px 26px;border-bottom:1px solid var(--border)}
+.mu-compose-step>header{display:flex;gap:13px;margin-bottom:16px}
+.mu-compose-step>header>b{font-size:12px;font-weight:500;color:var(--brand);padding-top:3px}
+.mu-compose-step h2{font-size:16px;font-weight:550;line-height:1.6;margin:0}
+.mu-compose-step>header p{font-size:12px;line-height:1.8;color:var(--text-dim);margin:4px 0 0}
+.mu-search-row{display:flex;gap:8px}
+.mu-search-row .input{flex:1;min-width:0;min-height:42px;font-size:12px}
+.mu-search-row .btn{font-size:12px;min-height:42px;flex:none;padding:8px 14px}
+.mu-search-status{font-size:12px;line-height:1.9;margin:12px 0 0;color:var(--text-dim)}
+.mu-search-status:empty{display:none}
+.mu-search-results{display:grid;gap:6px;max-height:360px;overflow:auto;margin-top:12px}
+.mu-search-results:empty{display:none}
+.mu-search-result{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:7px;text-align:left;color:var(--text)}
+.mu-search-result:hover{border-color:var(--brand)}
+.mu-search-result>span:first-child{min-width:0;display:grid;gap:4px}
+.mu-search-result strong{font-size:13px;font-weight:500;overflow-wrap:anywhere}
+.mu-search-result small{font-size:11px;line-height:1.7;color:var(--text-dim);overflow-wrap:anywhere}
+.mu-search-result>span:last-child{font-size:11px;color:var(--brand)}
+.mu-song-result{display:grid;grid-template-columns:48px minmax(0,1fr) 76px;gap:12px;padding:10px}
+.mu-song-result>.mu-art{width:48px;height:48px;border-radius:5px;display:block}
+.mu-song-result>span:nth-child(2){min-width:0;display:grid;gap:4px}
+.mu-result-end{display:grid;gap:6px;text-align:right}
+.mu-result-end small{font-variant-numeric:tabular-nums}
+.mu-search-more{margin-top:12px}
+.mu-chosen-song{margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.mu-chosen-song .mu-song{display:grid;grid-template-columns:60px minmax(0,1fr);padding:0;gap:14px;flex:1}
+.mu-chosen-song .mu-art{width:60px;height:60px}
+.mu-chosen-song h3{font-size:15px;margin-bottom:3px}
+.mu-chosen-song p{font-size:12px;color:var(--text-dim);margin:0;line-height:1.8;overflow-wrap:anywhere}
+.mu-inline-button,.mu-chosen-song>button{display:inline-flex;align-items:center;min-height:40px;padding:8px 4px;border:0;background:none;font:inherit;font-size:12px;color:var(--brand);cursor:pointer;flex:none}
+.mu-work-selection{display:flex;align-items:center;gap:16px}
+.mu-chosen-work{font-size:13px;line-height:1.8;margin:0;flex:1;min-width:0;border-left:2px solid var(--brand);padding:8px 12px;background:var(--surface-2);overflow-wrap:anywhere}
+.mu-role-options{display:flex;gap:8px;flex-wrap:wrap;border:0;padding:0;margin:16px 0 0}
+.mu-role-options legend{font-size:12px;color:var(--text-dim);margin-bottom:8px}
+.mu-role-options label{position:relative;font-size:12px;cursor:pointer}
+.mu-role-options input{position:absolute;opacity:0}
+.mu-role-options span{display:block;min-height:36px;padding:8px 13px;border:1px solid var(--border);border-radius:6px}
+.mu-role-options input:checked+span{border-color:var(--brand);color:var(--brand);background:var(--surface-2)}
+.mu-role-options input:focus-visible+span{outline:2px solid var(--brand);outline-offset:2px}
+.mu-editor-tabs{display:flex;gap:20px;margin-bottom:12px}
+.mu-editor-tabs button{font-size:12px;padding:0 0 7px;border:0;border-bottom:2px solid transparent;background:none;color:var(--text-dim)}
+.mu-editor-tabs button[aria-pressed=true]{color:var(--text);border-bottom-color:var(--brand)}
+.mu-composer textarea{width:100%;font-size:13px;line-height:1.9;resize:vertical;min-height:185px}
+.mu-text-preview{min-height:185px;padding:13px;border:1px solid var(--border);border-radius:7px;font-size:13px;line-height:2;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--bg)}
+.mu-editor-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 15px}
+.mu-editor-tools button{min-height:36px;border:0;background:none;padding:5px 0;color:var(--brand);font-size:12px}
+.mu-editor-tools>span{font-size:11px;color:var(--text-dim)}
+.mu-sticker-picker{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:18px}
+.mu-sticker-picker button{padding:5px;border:0;border-radius:6px;background:transparent;min-width:0}
+.mu-sticker-picker button:hover{background:var(--surface-2)}
+.mu-sticker-picker img{width:100%;height:auto;max-width:48px;display:block;margin:auto}
+.mu-spoiler-option{display:flex;gap:8px;align-items:center;font-size:12px;line-height:1.8}
+.mu-spoiler-option input{accent-color:var(--brand)}
+.mu-compose-footer{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 26px}
+.mu-compose-footer p{color:var(--brand);font-size:12px;line-height:1.8;margin:0 0 5px}
+.mu-compose-footer small{font-size:11px;line-height:1.7;color:var(--text-dim)}
+.mu-compose-footer .btn{font-size:12px;flex:none}
+.mu-duplicate{padding:12px;background:var(--surface-2);border-left:2px solid var(--brand);font-size:12px;line-height:1.9}
+.mu-duplicate a{color:var(--brand);margin-left:8px}
+.mu-conflict{padding:20px 26px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.mu-conflict h3{font-size:15px;margin:0 0 10px}
+.mu-conflict p{font-size:12px;line-height:1.8}
+.mu-conflict textarea{min-height:180px;max-height:300px;margin:10px 0;font:inherit;font-size:13px;line-height:1.9}
+.mu-conflict .btn{font-size:12px;white-space:normal}
+
+/* Discussion. */
+.mu-discussion{margin-top:24px;border:1px solid var(--border);border-radius:12px;padding:22px;background:var(--surface);scroll-margin-top:110px}
+.mu-discussion h2{font-size:17px;margin:0 0 18px}
+.mu-discussion h2 small{font-size:12px;color:var(--text-dim)}
+.mu-reply{padding:16px 0;border-bottom:1px solid var(--border);scroll-margin-top:110px}
+.mu-reply header{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:12px;margin-bottom:8px}
+.mu-reply header span,.mu-reply time{font-size:11px;color:var(--text-dim)}
+.mu-reply time{margin-left:auto}
+.mu-parent-quote{font-size:12px;margin:10px 0;padding:9px 12px;background:var(--surface-2);border-left:2px solid var(--border);border-radius:4px}
+.mu-parent-quote>summary{cursor:pointer;color:var(--text-dim)}
+.mu-parent-quote>a{display:inline-block;font-size:12px;color:var(--brand);padding:8px 0}
+.mu-reply footer{display:flex;align-items:center;gap:8px;margin-top:10px}
+.mu-reply footer form{margin:0}
+.mu-reply footer>button,.mu-reply footer .mu-more-actions>summary,.mu-reply footer form button{min-height:42px;padding:9px 10px;border:0;background:none;color:var(--text-dim);font-size:12px}
+.mu-reply .mu-spoiler{margin-top:8px}
+[data-music-reply-cancel]{background:none;border:0;padding:8px 0;min-height:40px;color:var(--brand);font-size:12px}
+.mu-discussion [data-music-reply-form]{margin-top:20px}
+.mu-discussion label{display:block;font-size:12px;margin-bottom:10px}
+.mu-discussion label.mu-spoiler-option{display:flex;margin-top:16px}
+.mu-discussion textarea{width:100%;font-size:13px;line-height:1.9;resize:vertical}
+.mu-reply-stickers{font-size:12px;margin-top:12px}
+.mu-reply-stickers summary{cursor:pointer;color:var(--brand);padding:6px 0}
+.mu-reply-stickers .mu-sticker-picker{margin:10px 0}
+.mu-discussion [role=status]{font-size:12px;line-height:1.8;color:var(--brand)}
+[data-music-reply-feedback] a,[data-music-reply-feedback] button{display:block;margin-top:10px;font:inherit;font-size:12px;min-height:40px;padding:9px;border:1px solid var(--border);border-radius:6px;background:var(--surface-2);color:var(--brand)}
+
+/* The work page uses the same proportions, in a smaller row. */
+.mu-work-panel{padding-top:24px!important;padding-bottom:24px!important}
+.mu-work-heading{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.mu-work-heading h2{font-size:19px;font-weight:550;margin:0;line-height:1.6}
+.mu-work-heading h2 small{font-size:12px;font-weight:400;color:var(--text-dim)}
+.mu-work-heading>a{font-size:12px;flex:none;padding:8px 0}
+.mu-work-tracks{display:grid;gap:8px}
+.mu-work-track{display:flex;gap:18px;align-items:center;border:1px solid var(--border);border-radius:9px;padding:12px 14px;background:var(--surface)}
+.mu-track-main{display:flex;gap:13px;align-items:center;min-width:0;flex:1}
+.mu-work-track .mu-art{width:52px;height:52px;border-radius:6px}
+.mu-track-main>span:last-child{display:grid;gap:3px;min-width:0}
+.mu-track-main strong{font-size:13px;font-weight:550;line-height:1.6;overflow-wrap:anywhere}
+.mu-track-main small{font-size:11px;color:var(--text-dim);line-height:1.6;overflow-wrap:anywhere}
+.mu-work-track .mu-listen{font-size:12px;min-height:42px;flex:none}
+.mu-work-panel>p{margin:10px 0 0;font-size:11px}
+
+@media(max-width:900px){
+  .mu-content-layout{grid-template-columns:minmax(0,1fr) 200px;gap:20px}
+  .mu-song{grid-template-columns:76px minmax(0,1fr);gap:10px 15px}
+  .mu-song>.mu-art-link{grid-row:1/3;align-self:start}
+  .mu-song>.mu-song-actions{grid-column:2;flex-direction:row;justify-content:flex-start;flex-wrap:wrap;min-width:0}
+  .mu-song .mu-art{width:76px;height:76px}
+  .mu-song-focus{grid-template-columns:128px minmax(0,1fr);gap:12px 22px}
+  .mu-song-focus .mu-art{width:128px;height:128px}
+  .mu-song-focus>.mu-song-actions{min-width:0}
+  .mu-hero h1{font-size:24px}
+}
+@media(max-width:700px){
+  .mu-content-layout{grid-template-columns:minmax(0,1fr)}
+  .mu-aside{display:none}
+  .mu-hero{padding:20px 22px 0;gap:0 16px}
+  .mu-hero h1{font-size:23px}
+  .mu-summary-note{display:none}
+}
+@media(max-width:500px){
+  .mu-page{margin-top:14px;padding:0 2px}
+  .mu-hero{grid-template-columns:minmax(0,1fr);padding:18px 18px 0;margin-bottom:22px}
+  .mu-hero h1{font-size:22px;line-height:1.6}
+  .mu-hero-note{font-size:12px}
+  .mu-share-action{justify-self:start;font-size:12px;margin-top:15px;min-height:42px}
+  .mu-summary{margin-top:17px;gap:16px;font-size:10px}
+  .mu-summary b{font-size:13px}
+  .mu-tabs{gap:24px;margin-bottom:14px}
+  .mu-tabs a{font-size:13px;padding-bottom:12px}
+  .mu-filter{grid-template-columns:minmax(0,1fr) 88px;gap:7px}
+  .mu-filter input{grid-column:1/-1}
+  .mu-filter .btn{padding-inline:12px}
+  .mu-filter-library{grid-template-columns:minmax(0,1fr) 108px auto}
+  .mu-filter-library input{grid-column:1/-1}
+  .mu-filter-library .btn{padding-inline:10px}
+  .mu-post{padding:16px 15px 8px}
+  .mu-post-header{gap:9px;margin-bottom:15px}
+  .mu-post-header .mu-time{font-size:10px}
+  .mu-song{grid-template-columns:64px minmax(0,1fr);padding:14px;gap:10px 13px;align-items:start}
+  .mu-song .mu-art{width:64px;height:64px;border-radius:6px}
+  .mu-song h3{font-size:15px;line-height:1.6;margin-bottom:4px}
+  .mu-song .mu-artist{font-size:12px}
+  .mu-song-meta{gap:3px 9px;margin-top:4px}
+  .mu-song .mu-album,.mu-duration{font-size:10px;line-height:1.7}
+  .mu-song-actions{gap:7px}
+  .mu-song .mu-listen{min-height:44px;font-size:11px;padding:9px 11px}
+  .mu-work{padding:10px 13px;gap:12px;min-height:52px}
+  .mu-work-copy{gap:4px 7px}
+  .mu-work-copy strong{flex-basis:100%;font-size:12px}
+  .mu-work-copy small{font-size:10px}
+  .mu-work>b{font-size:11px;gap:5px}
+  .mu-post-body{margin-top:16px}
+  .mu-post-footer{gap:1px;margin-top:14px}
+  .mu-post-footer a,.mu-post-footer button,.mu-more-actions>summary{padding:9px 8px;font-size:11px;min-height:44px}
+  .mu-recommend-text,.mu-long-text{font-size:13px;line-height:1.95}
+  .mu-library-header{padding:13px 14px 0;font-size:10px;gap:8px}
+  .mu-library-header>a{font-size:10px}
+  .mu-song-focus{grid-template-columns:80px minmax(0,1fr);padding:20px;gap:12px 15px}
+  .mu-song-focus .mu-art{width:80px;height:80px;border-radius:8px}
+  .mu-song-focus>.mu-art-link{grid-column:1;grid-row:1/3}
+  .mu-song-focus .mu-song-copy{display:contents}
+  .mu-song-label{grid-column:2;grid-row:1;font-size:9px;margin:0}
+  .mu-song-focus h1{grid-column:2;grid-row:2;font-size:19px;line-height:1.5;margin:0}
+  .mu-song-focus .mu-artist{grid-column:1/-1;grid-row:3;font-size:12px}
+  .mu-song-focus .mu-song-meta{grid-column:1/-1;grid-row:4;margin:0}
+  .mu-song-focus .mu-album{font-size:11px}
+  .mu-song-focus>.mu-song-actions{grid-column:1/-1;grid-row:5;display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .mu-song-focus .mu-listen,.mu-song-focus .mu-recommend-action{min-height:44px;padding:9px 7px;font-size:11px}
+  .mu-song-works .mu-work{padding:11px 20px}
+  .mu-section-heading{margin:24px 0 16px}
+  .mu-section-heading h2{font-size:17px}
+  .mu-compose-heading h1{font-size:22px}
+  .mu-compose-step{padding:18px 16px}
+  .mu-compose-step>header{gap:10px;margin-bottom:14px}
+  .mu-chosen-song{align-items:flex-start;gap:10px}
+  .mu-chosen-song .mu-song{grid-template-columns:52px minmax(0,1fr);gap:11px;padding:0}
+  .mu-chosen-song .mu-art{width:52px;height:52px}
+  .mu-chosen-song h3{font-size:14px}
+  .mu-chosen-song p{font-size:11px}
+  .mu-search-row .btn{padding-inline:11px;font-size:11px}
+  .mu-song-result{grid-template-columns:42px minmax(0,1fr) 62px;gap:9px;padding:9px}
+  .mu-song-result>.mu-art{width:42px;height:42px}
+  .mu-search-result strong{font-size:12px}
+  .mu-search-result small,.mu-search-result>span:last-child{font-size:10px}
+  .mu-search-results{max-height:320px}
+  .mu-role-options{gap:6px}
+  .mu-role-options span{padding:8px 11px}
+  .mu-role-options legend{font-size:11px}
+  .mu-editor-tools{gap:8px;align-items:flex-start}
+  .mu-editor-tools>span{font-size:10px;text-align:right;padding-top:8px}
+  .mu-sticker-picker{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .mu-spoiler-option{font-size:11px;align-items:flex-start}
+  .mu-compose-footer{flex-direction:column;align-items:stretch;gap:15px;padding:18px 16px}
+  .mu-compose-footer .btn{width:100%;min-height:44px}
+  .mu-conflict{padding:18px 16px}
+  .mu-conflict .btn{width:100%}
+  .mu-discussion{padding:16px}
+  .mu-reply header span{max-width:100%;overflow-wrap:anywhere}
+  .mu-work-heading{gap:10px}
+  .mu-work-heading h2{font-size:16px}
+  .mu-work-heading>a{font-size:11px}
+  .mu-work-track{display:grid;grid-template-columns:minmax(0,1fr) auto;padding:12px;gap:10px}
+  .mu-track-main{gap:10px}
+  .mu-work-track .mu-art{width:44px;height:44px}
+  .mu-track-main strong{font-size:12px}
+  .mu-track-main small{font-size:10px}
+  .mu-work-track .mu-listen{font-size:11px;padding:9px;min-height:44px;gap:5px}
+}
+@media(prefers-reduced-motion:reduce){.mu-page a,.mu-page button{transition:none}}

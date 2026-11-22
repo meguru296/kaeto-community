@@ -1,0 +1,10 @@
+(function(){
+ 'use strict';const root=document.querySelector('[data-adieu-guide]');if(!root)return;
+ const buttons=[...root.querySelectorAll('[data-adg-ending]')],allowed=new Set(buttons.map(b=>b.dataset.adgEnding));let completed=new Set();
+ try{const data=JSON.parse(localStorage.getItem(root.dataset.progressKey)||'{}');if(Array.isArray(data.completed))completed=new Set(data.completed.filter(id=>allowed.has(id)));}catch{}
+ function paint(){for(const b of buttons){const done=completed.has(b.dataset.adgEnding);b.setAttribute('aria-pressed',String(done));b.textContent=done?'已回收 ✓':'标记回收 ＋';const card=b.closest('[data-adg-ending-card]');card.classList.toggle('is-complete',done);b.setAttribute('aria-label',card.querySelector('h3').textContent.trim()+'，'+(done?'取消回收标记':'标记回收'));}root.querySelector('[data-adg-count]').textContent=String(completed.size);root.querySelector('[data-adg-progress]').value=completed.size;}
+ root.addEventListener('click',e=>{const b=e.target.closest('[data-adg-ending]');if(!b||!root.contains(b))return;const id=b.dataset.adgEnding;if(!allowed.has(id))return;completed.has(id)?completed.delete(id):completed.add(id);paint();try{localStorage.setItem(root.dataset.progressKey,JSON.stringify({completed:[...completed]}));}catch{root.querySelector('[data-adg-feedback]').textContent='浏览器未允许本地保存，回收标记仅在本次页面保留。';}});paint();
+ const sections=[...root.querySelectorAll('[data-adg-section]')],links=[...root.querySelectorAll('[data-adg-section-link]')];let queued=false;
+ function highlight(){queued=false;const padding=parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)||0;const active=sections.filter(s=>s.getBoundingClientRect().top<=padding+30).at(-1)||sections[0];for(const a of links){if(a.dataset.adgSectionLink===active?.dataset.adgSection)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');}}
+ function schedule(){if(!queued){queued=true;requestAnimationFrame(highlight);}}window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule);highlight();
+})();

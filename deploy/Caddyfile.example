@@ -1,0 +1,14 @@
+# Replace the domain, point DNS to the server, and open TCP 80/443.
+# Use Caddy OR nginx, not both on the same ports.
+gal.example.com {
+    encode zstd gzip
+    request_body {
+        max_size 6MB
+    }
+    reverse_proxy 127.0.0.1:8787 {
+        # Overwrite spoofed client headers before the trusted loopback hop.
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-For {remote_host}
+    }
+}

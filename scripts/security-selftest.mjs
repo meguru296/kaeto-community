@@ -1,0 +1,83 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { createApp, ROOT } from '../src/server.js';
+import { requestSecurity, RequestLimiter } from '../src/lib/security.js';
+import { Db } from '../src/lib/store.js';
+
+const dir=await fs.mkdtemp(path.join(os.tmpdir(),'gal-security-'));
+const app=await createApp({dataDir:dir,mailer:{ready:false}});
+let count=0;
+function check(name,fn){fn();count++;console.log('✓ '+name);}
+try {
+  const users=await Promise.all([['super',true,true],['admin',true,false],['member',false,false]].map(([username,isAdmin,isSuperAdmin])=>app.db.users.insert({username,isAdmin,isSuperAdmin,uid:10000})));
+  const cookies=await Promise.all(users.map(async u=>'gr_session='+(await app.auth.createSession(u.id)).id));
+  await new Promise(resolve=>app.server.listen(0,'127.0.0.1',resolve));
+  const base=`http://127.0.0.1:${app.server.address().port}`;
+  const get=(url,cookie)=>fetch(base+url,{headers:cookie?{Cookie:cookie}:{}});
+  const post=(url,form,cookie=cookies[0],extra={})=>fetch(base+url,{method:'POST',redirect:'manual',headers:{'Content-Type':'application/x-www-form-urlencoded',Origin:base,Cookie:cookie,...extra},body:new URLSearchParams(form)});
+  for(const [name,cookie,status] of [['游客',null,303],['普通成员',cookies[2],403],['普通管理员',cookies[1],403],['超级管理员',cookies[0],200]]) {
+    const res=await fetch(base+'/admin/site',{redirect:'manual',headers:cookie?{Cookie:cookie}:{}});check(name+'内容工作台权限',()=>assert.equal(res.status,status));
+  }
+  const missing=await fetch(base+'/admin/site/content',{method:'POST',redirect:'manual',headers:{Cookie:cookies[0],'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({key:'footer.slogan',value:'bad'})});
+  check('缺失来源的写操作拒绝且内容未写入',()=>{assert.equal(missing.status,403);assert.equal(app.content.values()['footer.slogan'],undefined);});
+  const cross=await post('/admin/site/content',{key:'footer.slogan',value:'bad'},cookies[0],{Origin:'https://attacker.example'});
+  check('跨站写入拒绝',()=>assert.equal(cross.status,403));
+  const fakeMeta=await post('/admin/site/content',{key:'footer.slogan',value:'bad'},cookies[0],{'Sec-Fetch-Site':'cross-site'});
+  check('cross-site Fetch Metadata 拒绝',()=>assert.equal(fakeMeta.status,403));
+  const plain=await post('/admin/site/content',{key:'footer.slogan',value:'bad'},cookies[0],{'Content-Type':'text/plain'});
+  check('不支持的提交格式拒绝',()=>assert.equal(plain.status,415));
+  const blocked=await post('/admin/site/content',{key:'footer.slogan',value:'bad'},cookies[1]);
+  check('普通管理员不能绕过界面写入',()=>assert.equal(blocked.status,403));
+  await post('/admin/site/content',{key:'footer.slogan',value:'<script>alert(1)</script>'});
+  const homepage=await get('/');const html=await homepage.text();
+  check('内容编辑存储并转义，修改审计保留前后值',()=>{assert.match(html,/&lt;script&gt;alert\(1\)&lt;\/script&gt;/);assert.equal(app.db.audit.all().length,1);});
+  check('安全响应头齐全',()=>{assert.match(homepage.headers.get('content-security-policy'),/script-src 'self'/);assert.equal(homepage.headers.get('x-frame-options'),'DENY');assert.equal(homepage.headers.get('x-content-type-options'),'nosniff');});
+  await post('/admin/site/content',{key:'security.superuser',value:'true'});
+  check('不能通过内容接口修改配置或权限',()=>assert.equal(app.content.values()['security.superuser'],undefined));
+  const before=app.db.assets.all().length;
+  async function upload(data,name,cookie){const body=new FormData();body.append('image',new Blob([data]),name);return fetch(base+'/admin/site/upload',{method:'POST',redirect:'manual',headers:{Cookie:cookie,Origin:base},body});}
+  await upload(Buffer.from('<script>alert(1)</script>'),'fake.png',cookies[0]);
+  await upload(Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"/>'),'test.svg',cookies[0]);
+  check('伪图片与 SVG 不进入素材库',()=>assert.equal(app.db.assets.all().length,before));
+  const image=await fs.readFile(path.join(ROOT,'public/img/community/avatar.webp'));
+  const memberUpload=await upload(image,'real.webp',cookies[2]);
+  check('成员上传拒绝',()=>assert.equal(memberUpload.status,403));
+  await upload(image,'untrusted-name.php',cookies[0]);
+  const asset=app.db.assets.all().at(-1);
+  check('真实图片随机命名，类型来自文件签名',()=>assert.match(asset.url,/^\/img\/uploads\/[a-f0-9]{32}\.webp$/));
+  const served=await get(asset.url);
+  check('上传目录按白名单提供图片，内容一致',()=>{assert.equal(served.headers.get('content-type'),'image/webp');});
+  assert.deepEqual(Buffer.from(await served.arrayBuffer()),image);
+  await post('/admin/site/content',{key:'gallery.sunset.image',value:asset.url});
+  const about=await (await get('/about')).text();
+  check('画廊缩略图和大图地址同步',()=>{assert.ok(about.includes(`data-poster="${asset.url}"`));assert.ok(about.includes(`src="${asset.url}"`));});
+  await post('/admin/site/content',{key:'about.video',value:'https://www.bilibili.com/video/BV1xx411c7mD/?spm_id_from=333'});
+  const videoAbout=await (await get('/about')).text();
+  check('超级管理员设置哔哩哔哩入口且移除追踪参数',()=>{assert.ok(videoAbout.includes('href="https://www.bilibili.com/video/BV1xx411c7mD/"'));assert.ok(!videoAbout.includes('<video'));});
+  check('其他视频不误用招新视频封面和时长',()=>{assert.ok(videoAbout.includes('community-video-fallback'));assert.ok(!videoAbout.includes('recruitment-2026.webp'));assert.ok(!videoAbout.includes('00:49'));});
+  await post('/admin/site/content',{key:'about.video',value:'https://bilibili.com.attacker.example/video/BV1xx411c7mD/'});
+  check('视频入口拒绝伪造域名和任意外链',()=>assert.equal(app.content.values()['about.video'],'https://www.bilibili.com/video/BV1xx411c7mD/'));
+  await post('/admin/site/content',{key:'about.video',value:'https://b23.tv/abc123'});
+  check('支持哔哩哔哩官方分享链接',()=>assert.equal(app.content.values()['about.video'],'https://b23.tv/abc123'));
+  await post('/admin/site/content',{key:'about.video',value:''});
+  const emptyVideo=await (await get('/about')).text();
+  check('视频链接留空隐藏观看按钮',()=>assert.ok(!emptyVideo.includes('前往哔哩哔哩观看')));
+  const paths=await Promise.all(['/config.mail.local.json','/data/users.json','/src/server.js','/img/uploads/../users.json','/img/uploads/wrong.svg'].map(url=>get(url)));
+  check('私有数据和任意上传路径不可访问',()=>assert.ok(paths.every(res=>res.status===404||res.status===400)));
+  await post('/admin/site/content',{key:'footer.slogan',reset:'1'});
+  check('恢复原始内容且保留审计',()=>assert.equal(app.content.values()['footer.slogan'],undefined));
+  const fresh=await new Db(dir).init();
+  check('编辑值和上传元数据可从磁盘恢复',()=>{assert.equal(fresh.meta.get('site-content').values['gallery.sunset.image'],asset.url);assert.equal(fresh.assets.all().length,1);});
+  const request={method:'GET',headers:{host:'example.com','x-real-ip':'1.2.3.4','x-forwarded-proto':'https'},socket:{remoteAddress:'9.9.9.9'}};
+  requestSecurity(request,{security:{trustProxy:'loopback'}});
+  check('外部连接不能伪造代理 IP 和 HTTPS',()=>{assert.equal(request.clientIp,'9.9.9.9');assert.equal(request.secure,false);});
+  request.socket.remoteAddress='127.0.0.1';requestSecurity(request,{security:{trustProxy:'loopback'}});
+  check('明确配置的回环代理可传递 IP 和 HTTPS',()=>{assert.equal(request.clientIp,'1.2.3.4');assert.equal(request.secure,true);});
+  check('HTTPS 会话 cookie 具有 Secure',()=>assert.match(app.auth.sessionCookie({id:'test'},true),/; Secure$/));
+  const limiter=new RequestLimiter();check('请求限速按 key 生效',()=>{assert.ok(limiter.allow('test',1));assert.equal(limiter.allow('test',1),false);});
+  const corrupt=path.join(dir,'corrupt');await fs.mkdir(corrupt);await fs.writeFile(path.join(corrupt,'users.json'),'{broken');
+  await assert.rejects(new Db(corrupt).init(),/启动已停止/);check('数据损坏拒绝启动且原文件未改写',()=>{});assert.equal(await fs.readFile(path.join(corrupt,'users.json'),'utf8'),'{broken');
+  console.log(`${count} 项安全与内容管理检查通过`);
+} finally { await new Promise(resolve=>app.server.close(resolve));await fs.rm(dir,{recursive:true,force:true}); }

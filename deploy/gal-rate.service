@@ -1,0 +1,31 @@
+[Unit]
+Description=Tangtang Star Galgame Community
+After=network-online.target postgresql.service
+Wants=network-online.target postgresql.service
+
+[Service]
+Type=simple
+User=galrate
+Group=galrate
+WorkingDirectory=/srv/gal-rate/current
+Environment=NODE_ENV=production
+Environment=HOST=127.0.0.1
+Environment=PORT=8787
+Environment=DATA_DIR=/srv/gal-rate/shared/data
+Environment=UPLOAD_DIR=/srv/gal-rate/shared/uploads
+Environment=CONFIG_PATH=/srv/gal-rate/shared/config.json
+Environment=MAIL_CONFIG_PATH=/srv/gal-rate/shared/config.mail.local.json
+ExecStart=/usr/bin/node src/server.js
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/gal-rate/shared
+UMask=0027
+MemoryMax=1G
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
