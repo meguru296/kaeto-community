@@ -9,13 +9,14 @@
 ```sh
 npm ci
 cp config.example.json config.json
+npm run admin -- demo-admin
 npm run demo
 npm start
 ```
 
-Windows PowerShell 可用 `Copy-Item config.example.json config.json`。打开 `http://127.0.0.1:8787`。演示脚本只向新的本地数据目录写入三部虚构作品。安装完成后的演示无需外部 API、数据库服务器或邮箱。
+Windows PowerShell 可用 `Copy-Item config.example.json config.json`。打开 `http://127.0.0.1:8787`。演示脚本向新的本地数据目录写入三部虚构作品和对应的打卡记录。安装完成后的演示无需外部 API、数据库服务器或邮箱。
 
-如需体验登录和后台，在应用尚未运行时执行 `npm run admin -- <username>`。命令仅在用户表为空时创建首位管理员，并在当前终端显示随机生成的初始密码。妥善保存该密码后启动应用，前往 `/login` 登录。
+管理员初始化命令在用户表为空时创建首位管理员，并在当前终端显示随机生成的初始密码。妥善保存该密码后启动应用，前往 `/login` 登录体验后台。普通自建实例可跳过演示数据。
 
 ```sh
 npm run check
