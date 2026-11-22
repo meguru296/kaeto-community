@@ -1,12 +1,46 @@
-# Kaeto Community
+<p align="center">
+  <img src="public/img/site/icon-192.png" width="64" height="64" alt="Kaeto 标志">
+</p>
+<h1 align="center">Kaeto Community</h1>
+<p align="center">
+  <strong>给视觉小说同好自建的社区书架</strong><br>
+  A self-hosted visual novel catalog, play journal, and community shelf.
+</p>
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-286450" alt="MIT license"></a>
+  <a href="#快速开始"><img src="https://img.shields.io/badge/Node.js-22%2B-526660" alt="Node.js 22+"></a>
+</p>
+<p align="center">
+  <a href="#快速开始"><strong>本地试用</strong></a> ·
+  <a href="#界面预览">界面预览</a> ·
+  <a href="deploy/README.md">自建部署</a> ·
+  <a href="https://github.com/meguru296/kaeto-community/issues">反馈与建议</a>
+</p>
 
-可自建的视觉小说社区。支持作品资料、游玩打卡与评分、评论和通知、公开或协作清单、资历卡草稿与本地 PNG 导出，以及可选的外部数据来源。
+[![Kaeto Community 的作品库，展示六部配有原创示例封面的虚构视觉小说](docs/images/catalogue.webp)](docs/images/catalogue.webp)
 
-## 五分钟试用
+## 用 Kaeto 做什么
 
-需要 Node.js 22 或更新版本。
+- **记下玩过的故事**　浏览作品资料，标记想玩、在玩或玩过，留下评分和感想。通过「群友最近在玩」发现大家正在读的作品。
+- **和朋友一起整理书架**　按主题创建公开或私密清单，添加标签、推荐语和封面配色。公开清单可以分享、点赞，也可以邀请朋友共同编辑。
+- **做一张自己的资历卡**　把入坑年份、代表作品和喜欢的角色排进一张长图。草稿跟随账号，分享用的 PNG 由浏览器生成。
+
+## 界面预览
+
+<p align="center">
+  <a href="docs/images/lists.webp"><img src="docs/images/lists.webp" width="62%" alt="列表收藏室，展示带主题封面、标签和点赞数的公开清单"></a>
+  <a href="docs/images/story-card.webp"><img src="docs/images/story-card.webp" width="34%" alt="松绿纸白配色的资历卡，展示入坑年份、代表作品和个人偏好"></a>
+</p>
+
+截图来自开源版的本地实例。图中的成员、作品、封面和清单均为演示样本。
+
+## 快速开始
+
+需要 **Node.js 22+** 和 npm。本地演示使用 JSON 存储，安装依赖后即可离线体验。
 
 ```sh
+git clone https://github.com/meguru296/kaeto-community.git
+cd kaeto-community
 npm ci
 cp config.example.json config.json
 npm run admin -- demo-admin
@@ -14,20 +48,18 @@ npm run demo
 npm start
 ```
 
-Windows PowerShell 可用 `Copy-Item config.example.json config.json`。打开 `http://127.0.0.1:8787`。演示脚本向新的本地数据目录写入三部虚构作品和对应的打卡记录。安装完成后的演示无需外部 API、数据库服务器或邮箱。
-
-管理员初始化命令在用户表为空时创建首位管理员，并在当前终端显示随机生成的初始密码。妥善保存该密码后启动应用，前往 `/login` 登录体验后台。普通自建实例可跳过演示数据。
-
-```sh
-npm run check
-```
-
-检查使用独立配置、临时数据和模拟邮件，不使用真实凭据。公开版的资料快照是空结构，运营者可按来源规则配置自己的数据接口。活动、群刊和原作专页的站点内容由运营者自行提供。
+Windows PowerShell 请用 `Copy-Item config.example.json config.json` 复制配置。打开 [本地演示](http://127.0.0.1:8787)，使用 `demo-admin` 和初始化时终端显示的随机密码登录。演示数据只在空白本地书架中初始化一次。
 
 ## 自建部署
 
-参阅 [部署说明](deploy/README.md)。程序只应有一个写入进程。使用 PostgreSQL 时，在私有配置中填写 `database.url` 或向服务提供 `DATABASE_URL`。日常开发可使用本地 JSON。
+自建时可选择本地 JSON 或 PostgreSQL，配合 Caddy 或 nginx 对外提供 HTTPS。应用使用单个写入进程。可按需配置作品和角色资料来源、Steam 或邮件，社区页面的内容由实例运营者维护。[部署说明](deploy/README.md)
+
+## 参与项目
+
+本地运行 `npm run check` 可验证主要功能。检查使用独立配置、临时数据和模拟邮件。想提交建议或反馈问题，可带上复现步骤或界面截图。[GitHub Issues](https://github.com/meguru296/kaeto-community/issues)
+
+安全问题请通过 GitHub 私密渠道报告。[安全报告说明](SECURITY.md)
 
 ## 许可
 
-项目代码及自制占位素材使用 [MIT License](LICENSE)。内置字体、第三方服务、站点内容和品牌见 [第三方声明](THIRD_PARTY_NOTICES.md)。
+项目代码及自制占位素材采用 MIT 许可证。内置字体、第三方资料和品牌的使用规则见随附说明。[MIT 许可证](LICENSE) · [第三方声明](THIRD_PARTY_NOTICES.md)
