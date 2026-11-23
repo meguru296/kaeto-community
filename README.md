@@ -26,12 +26,12 @@
 ## 界面预览
 
 <p align="center">
-  <a href="https://kaeto.top/img/uploads/7b239dd2faac226009e2cb9d2149e948.webp"><img src="https://kaeto.top/img/uploads/7b239dd2faac226009e2cb9d2149e948.webp" width="100%" alt="糖糖星作品库，包含作品搜索、筛选和群友的作品书架"></a>
+  <a href="docs/screenshots/catalogue.webp"><img src="docs/screenshots/catalogue.webp" width="100%" alt="糖糖星作品库，包含作品搜索、筛选和群友的作品书架"></a>
 </p>
 
 <p align="center">
-  <a href="https://kaeto.top/img/uploads/601523aeaaa8536024831bc7c4e78929.webp"><img src="https://kaeto.top/img/uploads/601523aeaaa8536024831bc7c4e78929.webp" width="48%" alt="糖糖星个人主页，展示游玩记录、故事印章和公开清单"></a>
-  <a href="https://kaeto.top/img/uploads/6ed8b50ccc814fefb61ed3c1921fef2b.webp"><img src="https://kaeto.top/img/uploads/6ed8b50ccc814fefb61ed3c1921fef2b.webp" width="48%" alt="糖糖星音乐分享，展示歌曲档案、关联作品和群友热门推荐"></a>
+  <a href="docs/screenshots/profile.webp"><img src="docs/screenshots/profile.webp" width="48%" alt="糖糖星个人主页，展示游玩记录、故事印章和公开清单"></a>
+  <a href="docs/screenshots/music.webp"><img src="docs/screenshots/music.webp" width="48%" alt="糖糖星音乐分享，展示歌曲档案、关联作品和群友热门推荐"></a>
 </p>
 
 点击截图查看大图。
@@ -64,4 +64,4 @@ Windows PowerShell 请用 `Copy-Item config.example.json config.json` 复制配�
 
 ## 许可
 
-项目代码及自制占位素材采用 MIT 许可证。README 的图标和预览由官网提供，糖糖星标志和枫糖美术的权利归原权利人。[MIT 许可证](LICENSE) · [第三方声明](THIRD_PARTY_NOTICES.md)
+项目代码及自制占位素材采用 MIT 许可证。文档截图中的作品封面、糖糖星标志和枫糖美术由相应权利人保留权利。[MIT 许可证](LICENSE) · [第三方声明](THIRD_PARTY_NOTICES.md)
